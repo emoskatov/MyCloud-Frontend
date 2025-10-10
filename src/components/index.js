@@ -1,51 +1,19 @@
-import React from 'react';
-import { Provider } from 'react-redux';
-import ReactDOM from 'react-dom/client';
-import { BrowserRouter } from 'react-router-dom';
+// src/components/index.js
 
-import './index.css';
-import api from './api';
-import App from './App';
-import store from './store/store';
+// Core Components
+export { default as Header } from './core/ui/Header';
+export { default as Notification } from './core/ui/Notification';
+export { default as ProtectedRoute } from './core/routes/ProtectedRoute';
 
+// Auth Module
+export { default as LoginForm } from './modules/auth/LoginForm';
+export { default as RegisterForm } from './modules/auth/RegisterForm';
 
-/**
- * Fetches a CSRF token for protection 
- * against cross-site request forgery.
- * This request is made when the app starts.
- * 
- * @function
- */
-api.get('/auth/csrf/', {
-  withCredentials: true
-}).catch(() => {});
+// Storage Module
+export { default as FileItem } from './modules/storage/FileItem';
+export { default as FileList } from './modules/storage/FileList';
+export { default as StorageInfo } from './modules/storage/StorageInfo';
 
-/**
- * The root DOM node of the application.
- * @type {ReactDOM.Root}
- */
-const root = ReactDOM.createRoot(
-  document.getElementById('root')
-);
-
-/**
- * Renders the main application 
- * into the root DOM node.
- * 
- * Wraps the app with:
- * - React.StrictMode for 
- *   highlighting potential issues
- * - Redux Provider for store access
- * - BrowserRouter for routing
- */
-root.render(
-  <React.StrictMode>
-    <Provider 
-      store={store}
-    >
-      <BrowserRouter>
-        <App />
-      </BrowserRouter>
-    </Provider>
-  </React.StrictMode>
-);
+// Admin Module
+export { default as CreateAdminForm } from './admin/CreateAdminForm';
+export { default as UserTable } from './admin/UserTable';
