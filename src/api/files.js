@@ -6,7 +6,7 @@ const filesApi = {
     return api.get('/storage/files/', { params, signal });
   },
 
-  uploadFile: (formData, { onUploadProgress, signal } = {}) =>
+  uploadFile: (formData, { onUploadProgress, signal } = {}) => 
     api.post('/storage/files/', formData, {
       headers: { 'Content-Type': 'multipart/form-data' },
       onUploadProgress,

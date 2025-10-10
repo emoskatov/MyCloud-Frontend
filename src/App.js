@@ -1,10 +1,6 @@
-// frontend\src\App.js
 import { useEffect, useRef, Suspense } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { Routes, Route, useNavigate } from 'react-router-dom';
-
-// import Header from './components/core/ui/Header';
-// import ProtectedRoute from './components/core/routes/ProtectedRoute';
 
 import api from './api';
 import { selectIsAuthenticated } from './store/selectors';
@@ -15,12 +11,12 @@ import {
   ProtectedRoute
 } from 'components';
 
-import {
+import { 
   HomePage,
   LoginPage,
   RegisterPage,
   StoragePage,
-  AdminPage
+  AdminPage 
 } from 'pages';
 
 import './index.css';
@@ -35,7 +31,7 @@ function App() {
   useEffect(() => {
     abortControllerRef.current = new AbortController();
     const signal = abortControllerRef.current.signal;
-
+    
     const token = localStorage.getItem('token');
 
     if (token && !isAuthenticated) {

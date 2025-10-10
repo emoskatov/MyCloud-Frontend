@@ -60,10 +60,10 @@ const UserTable = ({ users, isMobile }) => {
 
   const handleDelete = async (userId, e) => {
     e.stopPropagation();
-
+    
     const confirmText = `Вы уверены, что хотите удалить этого пользователя?\n\nДля подтверждения введите "DELETE"`;
     const userInput = prompt(confirmText);
-
+    
     if (userInput?.trim()?.toUpperCase() !== 'DELETE') {
       return;
     }
@@ -119,12 +119,12 @@ const UserTable = ({ users, isMobile }) => {
 
   const handleStorageLimitChange = async (userId, e) => {
     e.stopPropagation();
-
+    
     if (!validateStorageLimit(newStorageLimit)) return;
-
+    
     const confirmText = `Вы изменяете лимит хранилища для пользователя.\nНовый лимит: ${newStorageLimit} GB\n\nДля подтверждения введите "CONFIRM"`;
     const userInput = prompt(confirmText);
-
+    
     if (userInput?.trim()?.toUpperCase() !== 'CONFIRM') {
       return;
     }
@@ -200,7 +200,7 @@ const UserTable = ({ users, isMobile }) => {
                   )}
                 </button>
               </td>
-
+              
               <td className="actions-cell">
                 <div className="action-buttons">
                   <button
@@ -226,7 +226,7 @@ const UserTable = ({ users, isMobile }) => {
                   >
                     <FaDatabase />
                   </button>
-
+                  
                   <button
                     onClick={(e) => handleDelete(user.id, e)}
                     className="action-btn delete"
@@ -283,7 +283,7 @@ const UserTable = ({ users, isMobile }) => {
                       max="1000"
                       autoFocus
                     />
-
+                    
                     {storageLimitError && (
                       <div className="error-message">{storageLimitError}</div>
                     )}
@@ -317,11 +317,11 @@ const UserTable = ({ users, isMobile }) => {
           >
             <FaChevronLeft />
           </button>
-
+          
           <span className="page-info">
             Страница {currentPage} из {totalPages}
           </span>
-
+          
           <button
             onClick={() => setCurrentPage((prev) => Math.min(prev + 1, totalPages))}
             disabled={currentPage === totalPages}

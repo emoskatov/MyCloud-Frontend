@@ -3,40 +3,34 @@ import { FaPlus, FaKey } from 'react-icons/fa';
 import { useMediaQuery } from 'react-responsive';
 import { useSelector, useDispatch } from 'react-redux';
 
-// import usersApi from '../../../api/users';
-// import UserTable from '../../../components/admin/UserTable';
-// import { fetchUsers } from '../../../store/slices/usersSlice';
-// import CreateAdminForm from '../../../components/admin/CreateAdminForm';
-
 import { fetchUsers } from 'store/slices/usersSlice';
 import usersApi from 'api/users';
-
 import  {
   UserTable,
   CreateAdminForm
 } from 'components';
 
 /**
- * AdminPage is a page that displays a
- * list of regular users and allows creating
- * a new admin user, as well as changing the
+ * AdminPage is a page that displays a 
+ * list of regular users and allows creating 
+ * a new admin user, as well as changing the 
  * password of the current user.
  *
- * The page is divided into two main sections:
- * the header and the content. The header contains
- * a title and two buttons: "Create admin" and
- * "Change password". The content section displays
+ * The page is divided into two main sections: 
+ * the header and the content. The header contains 
+ * a title and two buttons: "Create admin" and 
+ * "Change password". The content section displays 
  * a table of users, which can be filtered by the
  * search input above the table.
  *
- * The page is responsive and will
+ * The page is responsive and will 
  * adapt to different screen sizes.
  * @returns {JSX.Element}
  */
 const AdminPage = () => {
   const dispatch = useDispatch();
   const abortControllerRef = useRef(null);
-
+  
   const { users, loading } = useSelector(
     (state) => state.users
   );
@@ -46,27 +40,27 @@ const AdminPage = () => {
   );
 
   const [
-    searchTerm,
+    searchTerm, 
     setSearchTerm
   ] = useState('');
 
   const [
-    showCreateAdmin,
+    showCreateAdmin, 
     setShowCreateAdmin
   ] = useState(false);
 
   const [
-    showPasswordModal,
+    showPasswordModal, 
     setShowPasswordModal
   ] = useState(false);
 
   const [
-    newPassword,
+    newPassword, 
     setNewPassword
   ] = useState('');
 
-  const isMobile = useMediaQuery({
-    query: '(max-width: 768px)'
+  const isMobile = useMediaQuery({ 
+    query: '(max-width: 768px)' 
   });
 
   useEffect(() => {
@@ -76,7 +70,7 @@ const AdminPage = () => {
   useEffect(() => {
     abortControllerRef.current = new AbortController();
     const signal = abortControllerRef.current.signal;
-
+    
     dispatch(fetchUsers(signal));
 
     return () => {
@@ -98,7 +92,7 @@ const AdminPage = () => {
       user.username.toLowerCase().includes(searchLower) ||
       user.email.toLowerCase().includes(searchLower) ||
       (
-        user.full_name &&
+        user.full_name && 
         user.full_name.toLowerCase().includes(searchLower)
       )
     );
@@ -107,13 +101,13 @@ const AdminPage = () => {
 /**
  * Handles the creation of a new admin user.
  *
- * @param {Object} values - Form values
+ * @param {Object} values - Form values 
  * containing the new admin user data.
- * @param {Object} formikHelpers - Object
+ * @param {Object} formikHelpers - Object 
  * containing Formik helper functions.
- * @param {Function} formikHelpers.setSubmitting -
+ * @param {Function} formikHelpers.setSubmitting - 
  * Function to set the submitting state.
- * @param {Function} formikHelpers.setErrors -
+ * @param {Function} formikHelpers.setErrors - 
  * Function to set form errors.
  */
   const handleCreateAdmin = async (values, { setSubmitting, setErrors }) => {
@@ -124,17 +118,17 @@ const AdminPage = () => {
 
     } catch (error) {
       setErrors(error.response?.data || {});
-
+    
     } finally {
       setSubmitting(false);
     }
   };
 
 /**
- * Handles changing the
+ * Handles changing the 
  * current user's password.
  *
- * @returns {Promise<void>} - Promise
+ * @returns {Promise<void>} - Promise 
  * resolving when the operation is complete
  */
   const handleChangePassword = async () => {
@@ -142,9 +136,9 @@ const AdminPage = () => {
 
     try {
       await usersApi.updateUser(
-        currentUser.id,
-        {
-          password: newPassword
+        currentUser.id, 
+        { 
+          password: newPassword 
         }
       );
 
@@ -153,7 +147,7 @@ const AdminPage = () => {
 
     } catch (error) {
       console.error(
-        'Error changing password:',
+        'Error changing password:', 
         error
       );
     }
@@ -165,7 +159,7 @@ const AdminPage = () => {
         <h1 className="admin-title">
           Панель администратора
         </h1>
-
+        
         <div className="admin-actions">
           <button
             className="admin-btn create-admin"
@@ -190,8 +184,8 @@ const AdminPage = () => {
           <input
             type="text"
             placeholder={
-              isMobile ?
-              "Поиск пользователей..." :
+              isMobile ? 
+              "Поиск пользователей..." : 
               "Поиск по ID, логину, Email или имени"
             }
             value={searchTerm}
@@ -220,7 +214,7 @@ const AdminPage = () => {
       {showCreateAdmin && (
         <div className="modal-overlay">
           <div className="modal">
-
+            
             <div className="modal-header">
               <h3 className="modal-title">
                 Создание администратора
@@ -233,7 +227,7 @@ const AdminPage = () => {
                 &times;
               </button>
             </div>
-
+            
             <div className="modal-body">
               <CreateAdminForm
                 onSubmit={handleCreateAdmin}

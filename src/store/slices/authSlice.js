@@ -1,15 +1,14 @@
 import { createSlice, createAsyncThunk } from '@reduxjs/toolkit';
-// import api from '../../api/auth';
-import authApi from '../../api/auth';
-import { secureStoreToken, removeSecureToken } from '../../utils/security';
+import authApi from 'api/auth';
+import { secureStoreToken, removeSecureToken } from 'utils/security';
 
 
 /**
  * Registers a new user.
- *
- * @param {Object} userData - User credentials
+ * 
+ * @param {Object} userData - User credentials 
  * (email, password, username, etc.).
- * @returns {Promise<Object>} Server
+ * @returns {Promise<Object>} Server 
  * response with user data and token.
  * @throws {string} Registration error message.
  */
@@ -31,12 +30,12 @@ export const register = createAsyncThunk(
 
 /**
  * Authenticates a user.
- *
- * @param {Object} credentials -
+ * 
+ * @param {Object} credentials - 
  * Contains email and password.
- * @returns {Promise<Object>} Server
+ * @returns {Promise<Object>} Server 
  * response with user data and token.
- * @throws {string} Error message (invalid
+ * @throws {string} Error message (invalid 
  * credentials or account deactivated).
  */
 export const fetchCurrentUser = createAsyncThunk(
@@ -56,7 +55,7 @@ export const fetchCurrentUser = createAsyncThunk(
 
 /**
  * Fetches the current user's data using the stored token.
- *
+ * 
  * @returns {Promise<Object>} User data.
  * @throws {string} Error message if the request fails.
  */
@@ -78,7 +77,7 @@ export const login = createAsyncThunk(
 
 /**
  * Redux slice for authentication state management.
- *
+ * 
  * @property {Object|null} user - Current user data.
  * @property {boolean} isAuthenticated - Authentication status.
  * @property {boolean} loading - Loading state during async operations.
@@ -96,9 +95,9 @@ const authSlice = createSlice({
 
   reducers: {
     /**
-     * Logs out the user by removing the stored
+     * Logs out the user by removing the stored 
      * token and resetting the authentication state.
-     *
+     * 
      * @param {Object} state - Redux state object.
      */
     logout: (state) => {
@@ -109,7 +108,7 @@ const authSlice = createSlice({
 
     /**
      * Clears the error message in the authentication state.
-     *
+     * 
      * @param {Object} state - Redux state object.
      */
     clearError: (state) => {
@@ -117,14 +116,14 @@ const authSlice = createSlice({
     },
 
     /**
-     * Sets the current user and updates the
+     * Sets the current user and updates the 
      * authentication status accordingly.
-     *
-     * If the payload is null, the
+     * 
+     * If the payload is null, the 
      * authentication status is set to false.
-     *
+     * 
      * @param {Object} state - Redux state object.
-     * @param {Object} action - Action object with
+     * @param {Object} action - Action object with 
      * the user data in the payload.
      */
     setUser: (state, action) => {
@@ -135,16 +134,16 @@ const authSlice = createSlice({
 
   /**
    * Handles side effects of authentication actions.
-   *
-   * @param {Object} builder - createSlice
+   * 
+   * @param {Object} builder - createSlice 
    * extraReducers builder.
    * @returns {Object} Modified builder.
-   * @property {function} pending - Set loading
+   * @property {function} pending - Set loading 
    * to true and clear error.
-   * @property {function} fulfilled - Set user
-   * and authentication status, clear error,
+   * @property {function} fulfilled - Set user 
+   * and authentication status, clear error, 
    * and set loading to false.
-   * @property {function} rejected - Set error
+   * @property {function} rejected - Set error 
    * and set loading to false.
    */
   extraReducers: (builder) => {
@@ -197,10 +196,10 @@ const authSlice = createSlice({
   },
 });
 
-export const {
-  logout,
-  clearError,
-  setUser
+export const { 
+  logout, 
+  clearError, 
+  setUser 
 } = authSlice.actions;
 
 export default authSlice.reducer;

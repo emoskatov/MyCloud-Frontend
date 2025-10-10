@@ -17,12 +17,12 @@ const authApi = {
   ),
 
   /**
-   * Sends a POST request to the register
+   * Sends a POST request to the register 
    * endpoint with the given user data.
-   *
-   * @param {Object} userData - The user
+   * 
+   * @param {Object} userData - The user 
    * data to use for the register request.
-   * @returns {Promise} The API response
+   * @returns {Promise} The API response 
    * from the register request.
    */
   register: (userData, signal) => api.post(
@@ -32,10 +32,10 @@ const authApi = {
   ),
 
   /**
-   * Sends a POST request to
+   * Sends a POST request to 
    * the logout endpoint.
-   *
-   * @returns {Promise} The API
+   * 
+   * @returns {Promise} The API 
    * response from the logout request.
    */
   logout: (signal) => api.post(
@@ -45,10 +45,10 @@ const authApi = {
   ),
 
   /**
-   * Sends a GET request to the user
+   * Sends a GET request to the user 
    * endpoint for the current user.
-   *
-   * @returns {Promise} The API
+   * 
+   * @returns {Promise} The API 
    * response from the user request.
    */
   getMe: (signal) => api.get(

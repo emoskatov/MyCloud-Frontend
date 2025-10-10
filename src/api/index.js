@@ -17,7 +17,7 @@ const api = axios.create({
 /**
  * Asynchronously gets a CSRF
  * token from the server.
- *
+ * 
  * @returns {Promise} Resolves
  * when the token has been retrieved.
  */
@@ -116,7 +116,7 @@ api.interceptors.response.use(
   error => {
     if (error.response) {
       if (error.response.status === 401 || error.response.status === 403) {
-        const errorMessage = error.response.data?.error ||
+        const errorMessage = error.response.data?.error || 
           "Invalid credentials or your account has been deactivated. Please contact the administrator at admin@mail.ru";
         return Promise.reject(new Error(errorMessage));
       }
@@ -133,7 +133,7 @@ api.interceptors.response.use(
 
 /**
  * Gets a cookie by name.
- *
+ * 
  * @param {string} name The name of
  * the cookie to be retrieved.
  * @returns {?string} The value of

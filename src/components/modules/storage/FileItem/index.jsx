@@ -58,9 +58,9 @@ const FileItem = memo(({ file }) => {
   const handleUpdate = async () => {
     setIsUpdating(true);
     try {
-      await dispatch(updateFile({
-        id: file.id,
-        data: { comment }
+      await dispatch(updateFile({ 
+        id: file.id, 
+        data: { comment } 
       })).unwrap();
       setIsEditing(false);
     } catch (error) {
@@ -86,10 +86,10 @@ const FileItem = memo(({ file }) => {
         textarea.style.position = 'fixed';
         document.body.appendChild(textarea);
         textarea.select();
-
+        
         const success = document.execCommand('copy');
         document.body.removeChild(textarea);
-
+        
         if (success) {
           alert('Ссылка скопирована');
         } else {
@@ -108,8 +108,8 @@ const FileItem = memo(({ file }) => {
         <span>{file.original_name}</span>
         <span>{(file.size / (1024 * 1024)).toFixed(2)} MB</span>
         {isEditing ? (
-          <input
-            value={comment}
+          <input 
+            value={comment} 
             onChange={(e) => setComment(e.target.value)}
             disabled={isUpdating}
           />
@@ -119,23 +119,23 @@ const FileItem = memo(({ file }) => {
       </div>
 
       <div className="file-actions">
-        <button
-          onClick={handleDownload}
+        <button 
+          onClick={handleDownload} 
           title="Скачать"
           disabled={isDownloading}
         >
           {isDownloading ? <FaSpinner className="spin" /> : <FaDownload />}
         </button>
 
-        <button
-          onClick={copyDownloadLink}
+        <button 
+          onClick={copyDownloadLink} 
           title="Копировать ссылку"
         >
           <FaLink />
         </button>
 
-        <button
-          onClick={() => setIsEditing(!isEditing)}
+        <button 
+          onClick={() => setIsEditing(!isEditing)} 
           title={isEditing ? 'Отмена' : 'Редактировать'}
           disabled={isUpdating}
         >
@@ -143,7 +143,7 @@ const FileItem = memo(({ file }) => {
         </button>
 
         {isEditing && (
-          <button
+          <button 
             onClick={handleUpdate}
             disabled={isUpdating}
           >
@@ -151,8 +151,8 @@ const FileItem = memo(({ file }) => {
           </button>
         )}
 
-        <button
-          onClick={handleDelete}
+        <button 
+          onClick={handleDelete} 
           title="Удалить"
           disabled={isDeleting}
         >

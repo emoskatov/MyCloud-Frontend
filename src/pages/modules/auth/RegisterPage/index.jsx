@@ -2,10 +2,6 @@ import { Link } from 'react-router-dom';
 import { useDispatch } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
 
-// import { register } from '../../../../store/slices/authSlice';
-// import Notification from '../../../../components/core/ui/Notification';
-// import RegisterForm from '../components/auth/RegisterForm';
-
 import { register } from 'store/slices/authSlice';
 
 import {
@@ -14,12 +10,12 @@ import {
 } from 'components';
 
 /**
- * RegisterPage component renders the registration
- * page for the application. It utilizes the Notification
- * and RegisterForm components. The RegisterForm is connected
- * to handleSubmit to dispatch register actions. The user is
+ * RegisterPage component renders the registration 
+ * page for the application. It utilizes the Notification 
+ * and RegisterForm components. The RegisterForm is connected 
+ * to handleSubmit to dispatch register actions. The user is 
  * redirected to the storage page after a successful registration.
- *
+ * 
  * @returns {JSX.Element} The rendered registration page component.
  */
 const RegisterPage = () => {
@@ -48,13 +44,13 @@ const RegisterPage = () => {
     <div className="auth-page">
       <h1>Регистрация</h1>
       <Notification />
-      <RegisterForm
-        onSubmit={handleSubmit}
+      <RegisterForm 
+        onSubmit={handleSubmit} 
       />
-      <p
-        style={{
-          textAlign: 'center',
-          marginTop: '1rem'
+      <p 
+        style={{ 
+          textAlign: 'center', 
+          marginTop: '1rem' 
         }}>
         Уже есть аккаунт? <Link to="/login">Войдите</Link>
       </p>
