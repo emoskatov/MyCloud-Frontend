@@ -6,17 +6,7 @@ import { useDispatch, useSelector } from 'react-redux';
 
 import { login } from 'store/slices/authSlice';
 
-/**
- * LoginForm component handles user
- * login functionality. It uses Redux
- * for state management, Formik for form
- * handling, and Yup for validation.
- *
- * Upon successful login, authenticated
- * users are redirected based on their role:
- * - Administrators are redirected to the admin page.
- * - Regular users are redirected to the storage page.
- */
+
 const LoginForm = () => {
   const dispatch = useDispatch();
   const navigate = useNavigate();
@@ -75,10 +65,10 @@ const LoginForm = () => {
                 id="username"
                 className="form-input"
               />
-              <ErrorMessage 
-                name="username" 
-                component="div" 
-                className="error-message" 
+              <ErrorMessage
+                name="username"
+                component="div"
+                className="error-message"
               />
             </div>
 
@@ -92,10 +82,10 @@ const LoginForm = () => {
                 id="password"
                 className="form-input"
               />
-              <ErrorMessage 
-                name="password" 
-                component="div" 
-                className="error-message" 
+              <ErrorMessage
+                name="password"
+                component="div"
+                className="error-message"
               />
             </div>
 
@@ -107,7 +97,7 @@ const LoginForm = () => {
               {isSubmitting || loading ? 'Вход...' : 'Войти'}
             </button>
           </form>
-          
+
           <p style={{ textAlign: 'center', marginTop: '1rem' }}>
             Нет аккаунта? <Link to="/register">Зарегистрируйтесь</Link>
           </p>

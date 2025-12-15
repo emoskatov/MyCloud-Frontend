@@ -9,15 +9,7 @@ import {
   RegisterForm
 } from 'components';
 
-/**
- * RegisterPage component renders the registration 
- * page for the application. It utilizes the Notification 
- * and RegisterForm components. The RegisterForm is connected 
- * to handleSubmit to dispatch register actions. The user is 
- * redirected to the storage page after a successful registration.
- * 
- * @returns {JSX.Element} The rendered registration page component.
- */
+
 const RegisterPage = () => {
   const dispatch = useDispatch();
   const navigate = useNavigate();
@@ -44,13 +36,13 @@ const RegisterPage = () => {
     <div className="auth-page">
       <h1>Регистрация</h1>
       <Notification />
-      <RegisterForm 
-        onSubmit={handleSubmit} 
+      <RegisterForm
+        onSubmit={handleSubmit}
       />
-      <p 
-        style={{ 
-          textAlign: 'center', 
-          marginTop: '1rem' 
+      <p
+        style={{
+          textAlign: 'center',
+          marginTop: '1rem'
         }}>
         Уже есть аккаунт? <Link to="/login">Войдите</Link>
       </p>

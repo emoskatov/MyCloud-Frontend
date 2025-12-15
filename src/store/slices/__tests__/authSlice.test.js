@@ -24,13 +24,11 @@ describe('authSlice', () => {
 
   const mockToken = 'mock-token-123';
 
-  // Мокаем security utils
   jest.mock('utils/security', () => ({
     secureStoreToken: jest.fn(),
     removeSecureToken: jest.fn()
   }));
 
-  // Мокаем API
   jest.mock('api/auth', () => ({
     login: jest.fn(),
     register: jest.fn(),
@@ -66,7 +64,6 @@ describe('authSlice', () => {
       const actual = authReducer(stateWithUser, logout());
       expect(actual.user).toBeNull();
       expect(actual.isAuthenticated).toBe(false);
-      // Можно добавить проверку вызова removeSecureToken если нужно
     });
 
     it('should handle clearError', () => {
@@ -89,19 +86,18 @@ describe('authSlice', () => {
         const payload = { user: mockUser, token: mockToken };
         const action = { type: login.fulfilled.type, payload };
         const state = authReducer(initialState, action);
-        
+
         expect(state.user).toEqual(mockUser);
         expect(state.isAuthenticated).toBe(true);
         expect(state.loading).toBe(false);
         expect(state.error).toBeNull();
-        // Можно добавить проверку вызова secureStoreToken если нужно
       });
 
       it('should handle login.rejected', () => {
         const error = 'Login failed';
         const action = { type: login.rejected.type, payload: error };
         const state = authReducer(initialState, action);
-        
+
         expect(state.error).toEqual(error);
         expect(state.loading).toBe(false);
         expect(state.isAuthenticated).toBe(false);
@@ -120,7 +116,7 @@ describe('authSlice', () => {
         const payload = { user: mockUser, token: mockToken };
         const action = { type: register.fulfilled.type, payload };
         const state = authReducer(initialState, action);
-        
+
         expect(state.user).toEqual(mockUser);
         expect(state.isAuthenticated).toBe(true);
         expect(state.loading).toBe(false);
@@ -131,7 +127,7 @@ describe('authSlice', () => {
         const error = 'Registration failed';
         const action = { type: register.rejected.type, payload: error };
         const state = authReducer(initialState, action);
-        
+
         expect(state.error).toEqual(error);
         expect(state.loading).toBe(false);
       });
@@ -141,7 +137,7 @@ describe('authSlice', () => {
       it('should handle fetchCurrentUser.fulfilled', () => {
         const action = { type: fetchCurrentUser.fulfilled.type, payload: mockUser };
         const state = authReducer(initialState, action);
-        
+
         expect(state.user).toEqual(mockUser);
         expect(state.isAuthenticated).toBe(true);
         expect(state.loading).toBe(false);
@@ -152,7 +148,7 @@ describe('authSlice', () => {
         const error = 'Failed to fetch user';
         const action = { type: fetchCurrentUser.rejected.type, payload: error };
         const state = authReducer(initialState, action);
-        
+
         expect(state.error).toEqual(error);
         expect(state.loading).toBe(false);
         expect(state.isAuthenticated).toBe(false);
@@ -162,22 +158,18 @@ describe('authSlice', () => {
 
   describe('integration tests', () => {
     it('should handle full login/logout flow', () => {
-      // Начальное состояние
       let state = authReducer(undefined, { type: 'unknown' });
       expect(state).toEqual(initialState);
 
-      // Логин pending
       state = authReducer(state, { type: login.pending.type });
       expect(state.loading).toBe(true);
 
-      // Логин успешен
       const loginPayload = { user: mockUser, token: mockToken };
       state = authReducer(state, { type: login.fulfilled.type, payload: loginPayload });
       expect(state.user).toEqual(mockUser);
       expect(state.isAuthenticated).toBe(true);
       expect(state.loading).toBe(false);
 
-      // Выход
       state = authReducer(state, logout());
       expect(state.user).toBeNull();
       expect(state.isAuthenticated).toBe(false);

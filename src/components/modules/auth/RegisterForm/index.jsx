@@ -38,7 +38,6 @@ const RegisterForm = ({ onSubmit }) => {
   const debouncedPassword = useDebounce(password, 500);
   const debouncedConfirmPassword = useDebounce(confirmPassword, 500);
 
-  // Проверка уникальности логина
   useEffect(() => {
     if (debouncedUsername && validateUsername(debouncedUsername)) {
       setUsernameChecking(true);
@@ -57,7 +56,6 @@ const RegisterForm = ({ onSubmit }) => {
     }
   }, [debouncedUsername]);
 
-  // Проверка уникальности email
   useEffect(() => {
     if (debouncedEmail && validateEmail(debouncedEmail)) {
       setEmailChecking(true);
@@ -76,13 +74,12 @@ const RegisterForm = ({ onSubmit }) => {
     }
   }, [debouncedEmail]);
 
-  // Валидация пароля
   useEffect(() => {
     if (!debouncedPassword) {
       setPasswordError(null);
       return;
     }
-    
+
     if (debouncedPassword.length < 6) {
       setPasswordError('Минимум 6 символов');
     } else if (!/[A-Z]/.test(debouncedPassword)) {
@@ -96,13 +93,12 @@ const RegisterForm = ({ onSubmit }) => {
     }
   }, [debouncedPassword]);
 
-  // Валидация подтверждения пароля
   useEffect(() => {
     if (!debouncedConfirmPassword) {
       setConfirmPasswordError(null);
       return;
     }
-    
+
     if (debouncedConfirmPassword !== password) {
       setConfirmPasswordError('Пароли должны совпадать');
     } else {
@@ -119,7 +115,7 @@ const RegisterForm = ({ onSubmit }) => {
 
   const renderFieldStatus = (fieldName, touched, error, checking) => {
     const status = getFieldStatus(fieldName, touched, error, checking);
-    
+
     switch (status) {
       case 'error':
         return <FaExclamationCircle className="status-icon error" />;
@@ -136,8 +132,7 @@ const RegisterForm = ({ onSubmit }) => {
     const { name, value } = e.target;
     setExternalValue(value);
     setFieldValue(name, value);
-    
-    // Сбрасываем ошибки при изменении
+
     switch (name) {
       case 'username':
         if (usernameError) setUsernameError(null);
@@ -165,18 +160,18 @@ const RegisterForm = ({ onSubmit }) => {
         password: '',
         confirmPassword: '',
       }}
-      
+
       validationSchema={Yup.object({
         username: Yup.string()
           .test(
-            'valid-username', 
+            'valid-username',
             () => usernameError || 'Некорректный логин',
             () => !usernameError && validateUsername(username)
           )
           .required('Обязательное поле'),
         email: Yup.string()
           .test(
-            'valid-email', 
+            'valid-email',
             () => emailError || 'Некорректный email',
             () => !emailError && validateEmail(email)
           )
@@ -185,7 +180,7 @@ const RegisterForm = ({ onSubmit }) => {
           .required('Обязательное поле'),
         password: Yup.string()
           .test(
-            'valid-password', 
+            'valid-password',
             () => passwordError || 'Слабый пароль',
             () => !passwordError && validatePassword(password)
           )
@@ -200,7 +195,6 @@ const RegisterForm = ({ onSubmit }) => {
       })}
 
       onSubmit={(values, actions) => {
-        // Проверяем наличие ошибок перед отправкой
         if (usernameError || emailError || passwordError || confirmPasswordError) {
           actions.setSubmitting(false);
           return;
@@ -208,15 +202,15 @@ const RegisterForm = ({ onSubmit }) => {
         onSubmit(values, actions);
       }}
     >
-      {({ 
-        handleSubmit, 
-        isSubmitting, 
-        touched, 
+      {({
+        handleSubmit,
+        isSubmitting,
+        touched,
         errors,
         setFieldValue,
       }) => (
         <form onSubmit={handleSubmit} className="auth-form">
-          {/* Поле username */}
+          {/* Username field */}
           <div className={`form-group ${getFieldStatus('username', touched.username, errors.username || usernameError, usernameChecking)}`}>
             <label htmlFor="username">
               Логин
@@ -241,7 +235,7 @@ const RegisterForm = ({ onSubmit }) => {
             )}
           </div>
 
-          {/* Поле email */}
+          {/* Email field */}
           <div className={`form-group ${getFieldStatus('email', touched.email, errors.email || emailError, emailChecking)}`}>
             <label htmlFor="email">
               Email
@@ -266,7 +260,7 @@ const RegisterForm = ({ onSubmit }) => {
             )}
           </div>
 
-          {/* Поле full_name */}
+          {/* full_name field */}
           <div className={`form-group ${getFieldStatus('full_name', touched.full_name, errors.full_name, false)}`}>
             <label htmlFor="full_name">
               Полное имя
@@ -287,7 +281,7 @@ const RegisterForm = ({ onSubmit }) => {
             )}
           </div>
 
-          {/* Поле password */}
+          {/* Password field */}
           <div className={`form-group ${getFieldStatus('password', touched.password, errors.password || passwordError, false)}`}>
             <label htmlFor="password">
               Пароль
@@ -312,7 +306,7 @@ const RegisterForm = ({ onSubmit }) => {
             )}
           </div>
 
-          {/* Поле confirmPassword */}
+          {/* confirmPassword field */}
           <div className={`form-group ${getFieldStatus('confirmPassword', touched.confirmPassword, errors.confirmPassword || confirmPasswordError, false)}`}>
             <label htmlFor="confirmPassword">
               Подтвердите пароль
@@ -334,13 +328,13 @@ const RegisterForm = ({ onSubmit }) => {
             )}
           </div>
 
-          <button 
-            type="submit" 
+          <button
+            type="submit"
             disabled={
-              isSubmitting || 
-              usernameChecking || 
-              emailChecking || 
-              usernameError || 
+              isSubmitting ||
+              usernameChecking ||
+              emailChecking ||
+              usernameError ||
               emailError ||
               passwordError ||
               confirmPasswordError ||

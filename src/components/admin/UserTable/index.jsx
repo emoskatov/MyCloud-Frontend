@@ -1,5 +1,6 @@
 import { useState, useEffect } from "react";
 import { useDispatch } from "react-redux";
+
 import {
   FaToggleOn,
   FaToggleOff,
@@ -13,15 +14,44 @@ import {
 } from "react-icons/fa";
 
 import { deleteUser, updateUser } from "store/slices/usersSlice";
-import { ITEMS_PER_PAGE, MIN_GB_LIMIT, MAX_GB_LIMIT } from "constants/index.js";
 import { validateNumber, validateRange } from "utils/validators.js";
+import { ITEMS_PER_PAGE, MIN_GB_LIMIT, MAX_GB_LIMIT } from "constants/index.js";
+
 
 [
-    { name: 'ITEMS_PER_PAGE', value: ITEMS_PER_PAGE, integer: true },
-    { name: 'MIN_GB_LIMIT', value: MIN_GB_LIMIT },
-    { name: 'MAX_GB_LIMIT', value: MAX_GB_LIMIT }
-].forEach(({ name, value, integer }) => validateNumber(name, value, integer));
-validateRange('MIN_GB_LIMIT', MIN_GB_LIMIT, 'MAX_GB_LIMIT', MAX_GB_LIMIT);
+    {
+      name: 'ITEMS_PER_PAGE',
+      value: ITEMS_PER_PAGE,
+      integer: true
+    },
+    {
+      name: 'MIN_GB_LIMIT',
+      value: MIN_GB_LIMIT
+    },
+    {
+      name: 'MAX_GB_LIMIT',
+      value: MAX_GB_LIMIT
+    }
+].forEach(
+  (
+    {
+      name,
+      value,
+      integer
+    }
+  ) => validateNumber(
+    name,
+    value,
+    integer
+  )
+);
+
+validateRange(
+  'MIN_GB_LIMIT',
+  MIN_GB_LIMIT,
+  'MAX_GB_LIMIT',
+  MAX_GB_LIMIT
+);
 
 const UserTable = ({ users, isMobile }) => {
   const dispatch = useDispatch();
@@ -60,10 +90,10 @@ const UserTable = ({ users, isMobile }) => {
 
   const handleDelete = async (userId, e) => {
     e.stopPropagation();
-    
+
     const confirmText = `Вы уверены, что хотите удалить этого пользователя?\n\nДля подтверждения введите "DELETE"`;
     const userInput = prompt(confirmText);
-    
+
     if (userInput?.trim()?.toUpperCase() !== 'DELETE') {
       return;
     }
@@ -119,12 +149,12 @@ const UserTable = ({ users, isMobile }) => {
 
   const handleStorageLimitChange = async (userId, e) => {
     e.stopPropagation();
-    
+
     if (!validateStorageLimit(newStorageLimit)) return;
-    
+
     const confirmText = `Вы изменяете лимит хранилища для пользователя.\nНовый лимит: ${newStorageLimit} GB\n\nДля подтверждения введите "CONFIRM"`;
     const userInput = prompt(confirmText);
-    
+
     if (userInput?.trim()?.toUpperCase() !== 'CONFIRM') {
       return;
     }
@@ -200,7 +230,7 @@ const UserTable = ({ users, isMobile }) => {
                   )}
                 </button>
               </td>
-              
+
               <td className="actions-cell">
                 <div className="action-buttons">
                   <button
@@ -226,7 +256,7 @@ const UserTable = ({ users, isMobile }) => {
                   >
                     <FaDatabase />
                   </button>
-                  
+
                   <button
                     onClick={(e) => handleDelete(user.id, e)}
                     className="action-btn delete"
@@ -283,7 +313,7 @@ const UserTable = ({ users, isMobile }) => {
                       max="1000"
                       autoFocus
                     />
-                    
+
                     {storageLimitError && (
                       <div className="error-message">{storageLimitError}</div>
                     )}
@@ -317,11 +347,11 @@ const UserTable = ({ users, isMobile }) => {
           >
             <FaChevronLeft />
           </button>
-          
+
           <span className="page-info">
             Страница {currentPage} из {totalPages}
           </span>
-          
+
           <button
             onClick={() => setCurrentPage((prev) => Math.min(prev + 1, totalPages))}
             disabled={currentPage === totalPages}

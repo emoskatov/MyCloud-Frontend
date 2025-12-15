@@ -12,7 +12,8 @@ import {
 import {
   deleteFile,
   downloadFile,
-  updateFile
+  updateFile,
+  updateSharedExpiry
 } from 'store/slices/filesSlice';
 
 const FileItem = memo(({ file }) => {
@@ -58,9 +59,9 @@ const FileItem = memo(({ file }) => {
   const handleUpdate = async () => {
     setIsUpdating(true);
     try {
-      await dispatch(updateFile({ 
-        id: file.id, 
-        data: { comment } 
+      await dispatch(updateFile({
+        id: file.id,
+        data: { comment }
       })).unwrap();
       setIsEditing(false);
     } catch (error) {
@@ -71,34 +72,30 @@ const FileItem = memo(({ file }) => {
   };
 
   const copyDownloadLink = async () => {
-    const apiBase = process.env.REACT_APP_API_BASE_URL;
-    const downloadLink = `${apiBase}/storage/shared/${file.shared_link}`;
-    const downloadLinkWithSlash = `${downloadLink}/`;
-
     try {
-      await navigator.clipboard.writeText(downloadLinkWithSlash);
-      alert('Ссылка скопирована!');
-    } catch (err) {
-      console.error('Ошибка копирования (Clipboard API):', err);
+      const response = await dispatch(updateSharedExpiry({
+        id: file.id,
+        expiryDays: 7
+      })).unwrap();
+
+      const apiBase = process.env.REACT_APP_API_BASE_URL;
+      const downloadLink = `${apiBase}/storage/shared/${response.shared_link}/`;
+
       try {
+        await navigator.clipboard.writeText(downloadLink);
+        alert('Ссылка скопирована! Срок действия: 7 дней');
+      } catch (err) {
         const textarea = document.createElement('textarea');
-        textarea.value = downloadLinkWithSlash;
-        textarea.style.position = 'fixed';
+        textarea.value = downloadLink;
         document.body.appendChild(textarea);
         textarea.select();
-        
-        const success = document.execCommand('copy');
+        document.execCommand('copy');
         document.body.removeChild(textarea);
-        
-        if (success) {
-          alert('Ссылка скопирована');
-        } else {
-          alert(`Ссылка для скачивания файла: ${downloadLink}`);
-        }
-      } catch (fallbackError) {
-        console.error('Ошибка fallback-копирования:', fallbackError);
-        alert(`Не удалось скопировать автоматически. Ссылка: ${downloadLink}`);
+        alert('Ссылка скопирована в буфер обмена!');
       }
+    } catch (error) {
+      console.error('Ошибка при обновлении ссылки:', error);
+      alert('Не удалось обновить ссылку');
     }
   };
 
@@ -108,8 +105,8 @@ const FileItem = memo(({ file }) => {
         <span>{file.original_name}</span>
         <span>{(file.size / (1024 * 1024)).toFixed(2)} MB</span>
         {isEditing ? (
-          <input 
-            value={comment} 
+          <input
+            value={comment}
             onChange={(e) => setComment(e.target.value)}
             disabled={isUpdating}
           />
@@ -119,23 +116,23 @@ const FileItem = memo(({ file }) => {
       </div>
 
       <div className="file-actions">
-        <button 
-          onClick={handleDownload} 
+        <button
+          onClick={handleDownload}
           title="Скачать"
           disabled={isDownloading}
         >
           {isDownloading ? <FaSpinner className="spin" /> : <FaDownload />}
         </button>
 
-        <button 
-          onClick={copyDownloadLink} 
+        <button
+          onClick={copyDownloadLink}
           title="Копировать ссылку"
         >
           <FaLink />
         </button>
 
-        <button 
-          onClick={() => setIsEditing(!isEditing)} 
+        <button
+          onClick={() => setIsEditing(!isEditing)}
           title={isEditing ? 'Отмена' : 'Редактировать'}
           disabled={isUpdating}
         >
@@ -143,7 +140,7 @@ const FileItem = memo(({ file }) => {
         </button>
 
         {isEditing && (
-          <button 
+          <button
             onClick={handleUpdate}
             disabled={isUpdating}
           >
@@ -151,8 +148,8 @@ const FileItem = memo(({ file }) => {
           </button>
         )}
 
-        <button 
-          onClick={handleDelete} 
+        <button
+          onClick={handleDelete}
           title="Удалить"
           disabled={isDeleting}
         >
